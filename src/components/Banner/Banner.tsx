@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 function Banner({
   img,
   poster,
@@ -26,7 +28,7 @@ function Banner({
     >
       <div className="banner-content text-light">
         <h1>{title}</h1>
-        <img src={poster} className="rounded border border-5 p-2" alt="poster" />
+        <Image className="rounded border border-5 p-2" src={poster} alt="poster" width={200} height={300}  />
         <p>{date}</p>
         <p>⭐ {rating}</p>
       </div>

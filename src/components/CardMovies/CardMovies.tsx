@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 function CardMovies({
   img,
   title,
@@ -22,7 +24,13 @@ function CardMovies({
         style={{ width: "95%" }}
         onClick={() => onClick(id)}
       >
-          <img src={img} className="card-img-top" alt="..." />
+        <Image
+          className="rounded border border-5 p-2"
+          src={img}
+          alt="poster"
+          width={200}
+          height={300}
+        />
         <div className="card-body text-light ">
           <h5>{title}</h5>
           <p>{date}</p>

@@ -17,12 +17,14 @@ const POSTER_SIZE_BIG = "w1920_and_h800_face";
 export default function Home() {
   const [movies, setMovies] = useState<Film[]>([]);
   const [genres, setGenres] = useState<Gener[]>([]);
+   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [loading, setLoading] = useState<boolean>(true);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [selectedMovie, setSelectedMovie] = useState<Film | null>(null);
   const [search, setSearch] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [selectedGenre, setSelectedGenre] = useState<number | null>(null);
+
 
   useEffect(() => {
     const fetchGenres = async () => {
