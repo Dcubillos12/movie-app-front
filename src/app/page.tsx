@@ -5,7 +5,7 @@ import SearchMovies from "@/components/SearchMovies/SearchMovies";
 import { useEffect, useState } from "react";
 import Slider from "react-slick";
 import Film from "./types/film";
-import { getGenerMovies, getMovies, getSearchMovies } from "./utils/page";
+import { getGenerMovies, getMovies, getSearchMovies } from "./utils/api";
 import CardMovies from "@/components/CardMovies/CardMovies";
 import PaginationMovies from "@/components/PaginationMovies/PaginationMavies";
 import Gener from "./types/gener";

@@ -1,3 +1,6 @@
+import Film from "../types/film";
+import Gener from "../types/gener";
+
 const API_KEY =
   "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxOTA1MjY2MDcwNmVkNWQ2ZGIxNDFkMTUyMDM4MmIzMSIsIm5iZiI6MTcyNTY0MzA4OS4zNjQwNzcsInN1YiI6IjY2ZDliY2QyZDdjMTllYTg2NmI4ZDMwMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.GDEPgsoDjRw0lQ-30qDec0ZS7_E_s946eW1yq3wwouo";
 
