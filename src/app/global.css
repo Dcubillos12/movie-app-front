@@ -1,0 +1,19 @@
+/* Estilos globales para un tema oscuro */
+
+body {
+    background-color: #121212 !important; /* Color de fondo oscuro */
+    color: #e0e0e0; /* Color del texto claro */
+    font-family: Arial, sans-serif; /* Fuente general */
+  }
+  
+  a {
+    color: #bb86fc; /* Color de los enlaces */
+  }
+  
+  header, footer {
+    background-color: #1f1f1f; /* Fondo oscuro para header y footer */
+  }
+  
+  
+  
+  

@@ -1,102 +1,168 @@
-import Image from "next/image";
+"use client";
+import Banner from "@/components/Banner/Banner";
+import FilterMovies from "@/components/FilterMovies/FilterMovies";
+import SearchMovies from "@/components/SearchMovies/SearchMovies";
+import { useEffect, useState } from "react";
+import Slider from "react-slick";
+import Film from "./types/film";
+import { getGenerMovies, getMovies, getSearchMovies } from "./utils/page";
+import CardMovies from "@/components/CardMovies/CardMovies";
+import PaginationMovies from "@/components/PaginationMovies/PaginationMavies";
+
+const BASE_URL = "https://image.tmdb.org/t/p/";
+const POSTER_SIZE = "w220_and_h330_face";
+const POSTER_SIZE_BIG = "w1920_and_h800_face";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <h1>Hola mundo</h1>
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [movies, setMovies] = useState<Film[]>([]);
+  const [genres, setGenres] = useState<Gener[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [selectedMovie, setSelectedMovie] = useState<Film | null>(null);
+  const [search, setSearch] = useState<string>("");
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [selectedGenre, setSelectedGenre] = useState<number | null>(null);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+  useEffect(() => {
+    const fetchGenres = async () => {
+      const genresData = await getGenerMovies();
+      setGenres(genresData);
+    };
+
+    fetchGenres();
+  }, []);
+
+  useEffect(() => {
+    const fetchMovies = async () => {
+      setLoading(true);
+      let moviesData: Film[] = [];
+
+      if (searchQuery) {
+        moviesData = await getSearchMovies({ query: searchQuery });
+      } else {
+        moviesData = await getMovies({ page: currentPage });
+      }
+      setMovies(moviesData);
+      setSelectedMovie(moviesData[0] || null);
+      setLoading(false);
+    };
+
+    fetchMovies();
+  }, [currentPage, searchQuery]);
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(event.target.value);
+  };
+  const handleSearch = () => {
+    if (search.trim() === "") {
+      setSearchQuery("");
+    } else {
+      setSearchQuery(search);
+    }
+  };
+  const handleGenreChange = (genreId: number) => {
+    setSelectedGenre(genreId);
+  };
+
+  const moviesByGenre = genres.map((genre) => ({
+    genre,
+    movies: movies.filter((movie) => movie.genre_ids.includes(genre.id)),
+  }));
+
+  const handleMovieSelect = (id: number) => {
+    const movie = movies.find((movie) => movie.id === id);
+    if (movie) {
+      setSelectedMovie(movie);
+    }
+  };
+
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+  };
+
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 4, // Número de películas visibles a la vez
+    slidesToScroll: 1,
+    arrows: false, // Desactiva las flechas de navegación
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+    ],
+  };
+
+  return (
+    <div className="row">
+      <div className="col-12">
+        {selectedMovie && (
+          <Banner
+            img={`${BASE_URL}${POSTER_SIZE_BIG}${selectedMovie.backdrop_path}`}
+            poster={`${BASE_URL}${POSTER_SIZE}${selectedMovie.poster_path}`}
+            title={selectedMovie.title}
+            rating={selectedMovie.vote_average}
+            date={selectedMovie.release_date}
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        )}
+      </div>
+      <div className="col-sm-12 col-lg-2 bg-dark">
+        <SearchMovies
+          title="Search"
+          icon="🔎"
+          placeholder="Search..."
+          onChange={handleChange}
+          onClick={handleSearch}
+        />
+        <FilterMovies
+          title="Genres"
+          genres={genres}
+          onGenreSelect={handleGenreChange}
+        />
+      </div>
+      <div className="container col-sm-12 col-lg-10 mt-4">
+        {moviesByGenre.map(({ genre, movies }) => (
+          <div key={genre.id}>
+            <h2 className="text-light">{genre.name}</h2>
+            <Slider {...settings}>
+              {movies.length > 0 ? (
+                movies.map((movie) => (
+                  <div key={movie.id} className="mb-4">
+                    <CardMovies
+                      img={`${BASE_URL}${POSTER_SIZE}${movie.poster_path}`}
+                      title={movie.title}
+                      date={movie.release_date.split("-")[0]}
+                      rating={movie.vote_average.toString()}
+                      icon="⭐️"
+                      id={movie.id}
+                      onClick={() => handleMovieSelect(movie.id)}
+                    />
+                  </div>
+                ))
+              ) : (
+                <p>No movies found for this genre.</p>
+              )}
+            </Slider>
+          </div>
+        ))}
+      </div>
+      <PaginationMovies num={currentPage} onPageChange={handlePageChange} />{" "}
     </div>
   );
 }
