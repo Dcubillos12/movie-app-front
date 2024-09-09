@@ -10,27 +10,26 @@ import CardMovies from "@/components/CardMovies/CardMovies";
 import PaginationMovies from "@/components/PaginationMovies/PaginationMavies";
 import Gener from "./types/gener";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const BASE_URL = "https://image.tmdb.org/t/p/";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const POSTER_SIZE = "w220_and_h330_face";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const POSTER_SIZE_BIG = "w1920_and_h800_face";
 
 export default function Home() {
   const [movies, setMovies] = useState<Film[]>([]);
   const [genres, setGenres] = useState<Gener[]>([]);
-   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [loading, setLoading] = useState<boolean>(true);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [selectedMovie, setSelectedMovie] = useState<Film | null>(null);
   const [search, setSearch] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [selectedGenre, setSelectedGenre] = useState<number | null>(null);
 
-
   useEffect(() => {
     const fetchGenres = async () => {
       const genresData = await getGenerMovies();
       setGenres(genresData);
-      setLoading(false);
     };
 
     fetchGenres();
@@ -38,7 +37,6 @@ export default function Home() {
 
   useEffect(() => {
     const fetchMovies = async () => {
-      setLoading(true);
       let moviesData: Film[] = [];
 
       if (searchQuery) {
@@ -48,11 +46,19 @@ export default function Home() {
       }
       setMovies(moviesData);
       setSelectedMovie(moviesData[0] || null);
-      setLoading(false);
     };
 
     fetchMovies();
   }, [currentPage, searchQuery]);
+
+  useEffect(() => {
+    if (selectedGenre) {
+      const filteredMovies = movies.filter((movie) =>
+        movie.genre_ids.includes(selectedGenre)
+      );
+      setMovies(filteredMovies);
+    }
+  }, [selectedGenre, movies]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(event.target.value);
@@ -115,7 +121,7 @@ export default function Home() {
 
   return (
     <div className="row">
-      {loading && selectedGenre ? (
+      {selectedGenre ? (
         <p>Loading...</p>
       ) : (
         <>
