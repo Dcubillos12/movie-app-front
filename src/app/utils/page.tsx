@@ -1,6 +1,3 @@
-const BASE_URL = "https://image.tmdb.org/t/p/";
-const POSTER_SIZE = "w220_and_h330_face";
-const POSTER_SIZE_BIG = "w1920_and_h800_face";
 const API_KEY =
   "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxOTA1MjY2MDcwNmVkNWQ2ZGIxNDFkMTUyMDM4MmIzMSIsIm5iZiI6MTcyNTY0MzA4OS4zNjQwNzcsInN1YiI6IjY2ZDliY2QyZDdjMTllYTg2NmI4ZDMwMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.GDEPgsoDjRw0lQ-30qDec0ZS7_E_s946eW1yq3wwouo";
 

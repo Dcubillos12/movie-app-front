@@ -8,6 +8,7 @@ import Film from "./types/film";
 import { getGenerMovies, getMovies, getSearchMovies } from "./utils/page";
 import CardMovies from "@/components/CardMovies/CardMovies";
 import PaginationMovies from "@/components/PaginationMovies/PaginationMavies";
+import Gener from "./types/gener";
 
 const BASE_URL = "https://image.tmdb.org/t/p/";
 const POSTER_SIZE = "w220_and_h330_face";
@@ -27,6 +28,7 @@ export default function Home() {
     const fetchGenres = async () => {
       const genresData = await getGenerMovies();
       setGenres(genresData);
+      setLoading(false);
     };
 
     fetchGenres();
