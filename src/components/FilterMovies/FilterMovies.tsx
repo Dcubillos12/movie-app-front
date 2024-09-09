@@ -1,5 +1,4 @@
 import Gener from "@/app/types/gener";
-
 function FilterMovies({
   title,
   genres,
@@ -24,9 +23,6 @@ function FilterMovies({
           onChange={handleSelectChange}
           defaultValue="0"
         >
-          <option value="0" selected>
-            Choose...
-          </option>
           {genres.map((genre) => (
             <option key={genre.id} value={genre.id}>
               {genre.name}
