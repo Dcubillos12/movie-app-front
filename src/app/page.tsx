@@ -111,58 +111,66 @@ export default function Home() {
 
   return (
     <div className="row">
-      <div className="col-12">
-        {selectedMovie && (
-          <Banner
-            img={`${BASE_URL}${POSTER_SIZE_BIG}${selectedMovie.backdrop_path}`}
-            poster={`${BASE_URL}${POSTER_SIZE}${selectedMovie.poster_path}`}
-            title={selectedMovie.title}
-            rating={selectedMovie.vote_average}
-            date={selectedMovie.release_date}
-          />
-        )}
-      </div>
-      <div className="col-sm-12 col-lg-2 bg-dark">
-        <SearchMovies
-          title="Search"
-          icon="🔎"
-          placeholder="Search..."
-          onChange={handleChange}
-          onClick={handleSearch}
-        />
-        <FilterMovies
-          title="Genres"
-          genres={genres}
-          onGenreSelect={handleGenreChange}
-        />
-      </div>
-      <div className="container col-sm-12 col-lg-10 mt-4">
-        {moviesByGenre.map(({ genre, movies }) => (
-          <div key={genre.id}>
-            <h2 className="text-light">{genre.name}</h2>
-            <Slider {...settings}>
-              {movies.length > 0 ? (
-                movies.map((movie) => (
-                  <div key={movie.id} className="mb-4">
-                    <CardMovies
-                      img={`${BASE_URL}${POSTER_SIZE}${movie.poster_path}`}
-                      title={movie.title}
-                      date={movie.release_date.split("-")[0]}
-                      rating={movie.vote_average.toString()}
-                      icon="⭐️"
-                      id={movie.id}
-                      onClick={() => handleMovieSelect(movie.id)}
-                    />
-                  </div>
-                ))
-              ) : (
-                <p>No movies found for this genre.</p>
-              )}
-            </Slider>
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <>
+          <div className="col-12">
+            {selectedMovie && (
+              <Banner
+                img={`${BASE_URL}${POSTER_SIZE_BIG}${selectedMovie.backdrop_path}`}
+                poster={`${BASE_URL}${POSTER_SIZE}${selectedMovie.poster_path}`}
+                title={selectedMovie.title}
+                rating={selectedMovie.vote_average}
+                date={selectedMovie.release_date}
+              />
+            )}
           </div>
-        ))}
-      </div>
-      <PaginationMovies num={currentPage} onPageChange={handlePageChange} />{" "}
+          {!selectedGenre && (
+            <div className="col-sm-12 col-lg-2 bg-dark">
+              <SearchMovies
+                title="Search"
+                icon="🔎"
+                placeholder="Search..."
+                onChange={handleChange}
+                onClick={handleSearch}
+              />
+              <FilterMovies
+                title="Genres"
+                genres={genres}
+                onGenreSelect={handleGenreChange}
+              />
+            </div>
+          )}
+          <div className="container col-sm-12 col-lg-10 mt-4">
+            {moviesByGenre.map(({ genre, movies }) => (
+              <div key={genre.id}>
+                <h2 className="text-light">{genre.name}</h2>
+                <Slider {...settings}>
+                  {movies.length > 0 ? (
+                    movies.map((movie) => (
+                      <div key={movie.id} className="mb-4">
+                        <CardMovies
+                          img={`${BASE_URL}${POSTER_SIZE}${movie.poster_path}`}
+                          title={movie.title}
+                          date={movie.release_date.split("-")[0]}
+                          rating={movie.vote_average.toString()}
+                          icon="⭐️"
+                          id={movie.id}
+                          onClick={() => handleMovieSelect(movie.id)}
+                        />
+                      </div>
+                    ))
+                  ) : (
+                    <p>No movies found for this genre.</p>
+                  )}
+                </Slider>
+              </div>
+            ))}
+          </div>
+          <PaginationMovies num={currentPage} onPageChange={handlePageChange} />{" "}
+        </>
+      )}
     </div>
   );
 }
