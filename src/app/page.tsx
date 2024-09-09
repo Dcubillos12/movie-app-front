@@ -113,7 +113,7 @@ export default function Home() {
 
   return (
     <div className="row">
-      {loading ? (
+      {loading && selectedGenre ? (
         <p>Loading...</p>
       ) : (
         <>
@@ -128,22 +128,20 @@ export default function Home() {
               />
             )}
           </div>
-          {!selectedGenre && (
-            <div className="col-sm-12 col-lg-2 bg-dark">
-              <SearchMovies
-                title="Search"
-                icon="🔎"
-                placeholder="Search..."
-                onChange={handleChange}
-                onClick={handleSearch}
-              />
-              <FilterMovies
-                title="Genres"
-                genres={genres}
-                onGenreSelect={handleGenreChange}
-              />
-            </div>
-          )}
+          <div className="col-sm-12 col-lg-2 bg-dark">
+            <SearchMovies
+              title="Search"
+              icon="🔎"
+              placeholder="Search..."
+              onChange={handleChange}
+              onClick={handleSearch}
+            />
+            <FilterMovies
+              title="Genres"
+              genres={genres}
+              onGenreSelect={handleGenreChange}
+            />
+          </div>
           <div className="container col-sm-12 col-lg-10 mt-4">
             {moviesByGenre.map(({ genre, movies }) => (
               <div key={genre.id}>
