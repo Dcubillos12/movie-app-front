@@ -2,6 +2,7 @@ import "@/app/global.css";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import NavBar from "@/components/NavBar/NavBar";
 
 
 export const metadata = {
@@ -19,7 +20,10 @@ export default function RootLayout({
     <head>
         <link rel="icon" href="/favicon.png" />
       </head>   
-      <body>{children}</body>
+      <body>
+        <NavBar/>
+        {children}
+      </body>
     </html>
   )
 }

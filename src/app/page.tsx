@@ -44,6 +44,7 @@ export default function Home() {
       } else {
         moviesData = await getMovies({ page: currentPage });
       }
+      console.log(moviesData);
       setMovies(moviesData);
       setSelectedMovie(moviesData[0] || null);
     };
@@ -129,10 +130,9 @@ export default function Home() {
             {selectedMovie && (
               <Banner
                 img={`${BASE_URL}${POSTER_SIZE_BIG}${selectedMovie.backdrop_path}`}
-                poster={`${BASE_URL}${POSTER_SIZE}${selectedMovie.poster_path}`}
+                description={selectedMovie.overview}
                 title={selectedMovie.title}
                 rating={selectedMovie.vote_average}
-                date={selectedMovie.release_date}
               />
             )}
           </div>

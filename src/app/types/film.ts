@@ -6,7 +6,8 @@ interface Film {
   media_type: string;
   release_date: string;
   vote_average: number;
-  genre_ids: number[]; // Añadir esta línea
+  genre_ids: number[]; 
+  overview: string;
 }
 
 export default Film;
