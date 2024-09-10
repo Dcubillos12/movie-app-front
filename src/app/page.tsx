@@ -162,8 +162,7 @@ export default function Home() {
                           img={`${BASE_URL}${POSTER_SIZE}${movie.poster_path}`}
                           title={movie.title}
                           date={movie.release_date.split("-")[0]}
-                          rating={movie.vote_average.toString()}
-                          icon="⭐️"
+                          rating={movie.vote_average}              
                           id={movie.id}
                           onClick={() => handleMovieSelect(movie.id)}
                         />
