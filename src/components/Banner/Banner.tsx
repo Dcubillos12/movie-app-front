@@ -1,3 +1,5 @@
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 function Banner({
   img,
   description,
@@ -9,6 +11,7 @@ function Banner({
   title: string;
   rating: number;
 }): JSX.Element {
+  const pathColor = rating < 5 ? "red" : "#07a20f";
   return (
     <div
       className="banner m-4 "
@@ -35,23 +38,15 @@ function Banner({
             {description}
           </h4>
         </div>
-        <div className="col-2"
-          style={{
-            width: "50px",
-            height: "50px",
-            borderRadius: "50%",
-            background: `conic-gradient(green ${
-              (rating / 10) * 100
-            }%, lightgray ${(rating / 10) * 100}% 100%)`,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontSize: "20px",
-            fontWeight: "bold",
-            color: "white",
-          }}
-        >
-          {`${Math.round((rating / 10) * 100)}%`}
+        <div className="col-2" style={{ width: 100, height: 100 }}>
+          <CircularProgressbar
+            value={rating * 10}
+            text={`${rating}%`}
+            styles={buildStyles({
+              pathColor: pathColor,
+              textColor: pathColor,
+            })}
+          />
         </div>
       </div>
     </div>

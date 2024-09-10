@@ -136,7 +136,7 @@ export default function Home() {
               />
             )}
           </div>
-          <div className="col-sm-12 col-lg-2 bg-dark">
+          <div className="col-sm-12 col-lg-2 bg-dark m-4">
             <SearchMovies
               title="Search"
               icon="🔎"
@@ -150,7 +150,7 @@ export default function Home() {
               onGenreSelect={handleGenreChange}
             />
           </div>
-          <div className="container col-sm-12 col-lg-10 mt-4">
+          <div className="container col-sm-12 col-lg-9 mt-4">
             {moviesByGenre.map(({ genre, movies }) => (
               <div key={genre.id}>
                 <h2 className="text-light">{genre.name}</h2>
