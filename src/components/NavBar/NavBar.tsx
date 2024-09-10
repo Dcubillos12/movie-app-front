@@ -7,9 +7,11 @@ function NavBar(): JSX.Element {
   return (
     <div className="row navbar navbar-dark bg-dark ">
       <div className="d-flex align-items-center">
-        <div className="col-auto ms-4">
-          <Image src={logo} alt="logo" layout="intrinsic" />
-        </div>
+        <Link href="/" className={styles.link}>
+          <div className="col-auto ms-4">
+            <Image src={logo} alt="logo" layout="intrinsic" />
+          </div>
+        </Link>
         <nav className="col-auto">
           <ul className="d-flex mt-4 text-decoration-none">
             <li className="me-4">

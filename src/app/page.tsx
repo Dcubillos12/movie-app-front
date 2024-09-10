@@ -9,6 +9,7 @@ import { getGenerMovies, getMovies, getSearchMovies } from "./utils/api";
 import CardMovies from "@/components/CardMovies/CardMovies";
 import PaginationMovies from "@/components/PaginationMovies/PaginationMavies";
 import Gener from "./types/gener";
+import Link from "next/link";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const BASE_URL = "https://image.tmdb.org/t/p/";
@@ -80,13 +81,6 @@ export default function Home() {
     movies: movies.filter((movie) => movie.genre_ids.includes(genre.id)),
   }));
 
-  const handleMovieSelect = (id: number) => {
-    const movie = movies.find((movie) => movie.id === id);
-    if (movie) {
-      setSelectedMovie(movie);
-    }
-  };
-
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
@@ -122,50 +116,50 @@ export default function Home() {
 
   return (
     <div className="row">
-      {selectedGenre ? (
-        <p>Loading...</p>
-      ) : (
-        <>
-          <div className="col-12">
-            {selectedMovie && (
-              <Banner
-                img={`${BASE_URL}${POSTER_SIZE_BIG}${selectedMovie.backdrop_path}`}
-                description={selectedMovie.overview}
-                title={selectedMovie.title}
-                rating={selectedMovie.vote_average}
-              />
-            )}
-          </div>
-          <div className="col-sm-12 col-lg-2 bg-dark m-4">
-            <SearchMovies
-              title="Search"
-              icon="🔎"
-              placeholder="Search..."
-              onChange={handleChange}
-              onClick={handleSearch}
+      <>
+        <div className="col-12">
+          {selectedMovie && (
+            <Banner
+              img={`${BASE_URL}${POSTER_SIZE_BIG}${selectedMovie.backdrop_path}`}
+              description={selectedMovie.overview}
+              title={selectedMovie.title}
+              rating={selectedMovie.vote_average}
             />
-            <FilterMovies
-              title="Genres"
-              genres={genres}
-              onGenreSelect={handleGenreChange}
-            />
-          </div>
-          <div className="container col-sm-12 col-lg-9 mt-4">
-            {moviesByGenre.map(({ genre, movies }) => (
+          )}
+        </div>
+        <div className="col-sm-12 col-lg-2 bg-dark m-4">
+          <SearchMovies
+            title="Search"
+            icon="🔎"
+            placeholder="Search..."
+            onChange={handleChange}
+            onClick={handleSearch}
+          />
+          <FilterMovies
+            title="Genres"
+            genres={genres}
+            onGenreSelect={handleGenreChange}
+          />
+        </div>
+        <div className="container col-sm-12 col-lg-9 mt-4">
+          {moviesByGenre.length > 0 ? (
+            moviesByGenre.map(({ genre, movies }) => (
               <div key={genre.id}>
                 <h2 className="text-light">{genre.name}</h2>
                 <Slider {...settings}>
                   {movies.length > 0 ? (
                     movies.map((movie) => (
                       <div key={movie.id} className="mb-4">
-                        <CardMovies
-                          img={`${BASE_URL}${POSTER_SIZE}${movie.poster_path}`}
-                          title={movie.title}
-                          date={movie.release_date.split("-")[0]}
-                          rating={movie.vote_average}              
-                          id={movie.id}
-                          onClick={() => handleMovieSelect(movie.id)}
-                        />
+                        <Link href={`/movies/${movie.id}`}>
+                          <CardMovies
+                            img={`${BASE_URL}${POSTER_SIZE}${movie.poster_path}`}
+                            title={movie.title}
+                            date={movie.release_date.split("-")[0]}
+                            rating={movie.vote_average}
+                            id={movie.id}
+                            onClick={() => {}}
+                          />
+                        </Link>
                       </div>
                     ))
                   ) : (
@@ -173,11 +167,13 @@ export default function Home() {
                   )}
                 </Slider>
               </div>
-            ))}
-          </div>
-          <PaginationMovies num={currentPage} onPageChange={handlePageChange} />{" "}
-        </>
-      )}
+            ))
+          ) : (
+            <p>No movies available.</p>
+          )}
+        </div>
+        <PaginationMovies num={currentPage} onPageChange={handlePageChange} />{" "}
+      </>
     </div>
   );
 }

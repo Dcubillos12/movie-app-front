@@ -24,7 +24,7 @@ function FilterMovies({
           defaultValue="0"
         >
           {genres.map((genre) => (
-            <option key={genre.id} value={genre.id}>
+            <option key={genre.id} value={genre.id} onClick={() => onGenreSelect(genre.id)}>
               {genre.name}
             </option>
           ))}
