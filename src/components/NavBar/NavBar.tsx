@@ -1,6 +1,6 @@
 import Link from "next/link";
 import logo from "@/assets/Logo.png";
-import './NavBar.css';
+import styles from '@/components/NavBar/styles.module.css'
 import Image from "next/image";
 
 function NavBar(): JSX.Element {
@@ -12,10 +12,10 @@ function NavBar(): JSX.Element {
       <nav className="col-8 " >
         <ul className="d-flex mt-4 text-decoration-none">
           <li className="me-4">
-            <Link href="/popular" className="link">Popular</Link>
+            <Link href="/popular" className={styles.link}>Popular</Link>
           </li>
           <li>
-            <Link href="/favoritos" className="link">Favoritos</Link>
+            <Link href="/favoritos" className={styles.link}>Favoritos</Link>
           </li>
         </ul>
         <span className="bi bi-person-circle"></span>
