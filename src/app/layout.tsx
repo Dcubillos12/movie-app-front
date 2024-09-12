@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import NavBar from "@/components/NavBar/NavBar";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export const metadata = {
   title: "Next.js",
